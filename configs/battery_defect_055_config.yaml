@@ -1,0 +1,69 @@
+# 电池表面缺陷检测：约 mAP50-95=0.55 的稳定配置
+# 用途：远程服务器复现实验；data、model、project 请按服务器路径调整。
+
+data: /gemini/code/datasets/detection_yolo_v2/data.yaml
+model: yolo11n.pt
+epochs: 5
+imgsz: 640
+batch: 32
+workers: 16
+device: '0'
+
+# 当前稳定版本的三个研究模块
+mdrh: true
+bcrh: true
+cdaa: true
+
+# 其他实验分支关闭，避免改变 0.55 对照条件
+didc: false
+mcrd: false
+ldfs: false
+ldfs_class: 1
+ldfs_contain_ratio: 0.80
+ldfs_area_ratio: 4.0
+ldfs_score_margin: 0.05
+mdsc: false
+cbsc: false
+baseline: false
+all_innovations: false
+
+# MDRH
+mdrh_detail_weight: 0.15
+mdrh_focus_class: 1
+mdrh_focus_line_gain: 0.0
+mdrh_focus_cls_gain: 0.10
+
+# BCRH：保持稳定的 BCE + Dice 设置；focal 默认关闭
+bcrh_weight: 0.08
+bcrh_dice_weight: 0.25
+bcrh_level_weights: [1.25, 1.0, 0.75]
+bcrh_boundary_weight: 1.5
+bcrh_focus_class: 1
+bcrh_gate_gain: 0.10
+
+# CDAA
+cdaa_min_topk: 3
+cdaa_density_power: 0.25
+cdaa_small_object_power: 0.20
+cdaa_scale_weight: 0.35
+cdaa_shape_iou_gate: 0.15
+cdaa_shape_floor: 0.50
+cdaa_focus_class: 1
+cdaa_focus_power: 0.10
+cdaa_focus_cls_gain: 1.00
+cdaa_focus_metric_gain: 1.00
+cdaa_focus_target_floor: 0.15
+cdaa_focus_pos_gamma: 1.00
+cdaa_focus_neg_gamma: 2.00
+cdaa_focus_min_topk: 6
+cdaa_focus_max_topk: 12
+warmup_epochs: 1.0
+
+project: runs/innovation_tests
+name: stable_055
+val: true
+plots: false
+save: true
+cache: false
+resume: false
+

@@ -1,0 +1,8 @@
+train: images/train
+val: images/val
+test: images/test
+
+names:
+  0: Pinhole
+  1: Surface_Crack
+  2: Delamination
